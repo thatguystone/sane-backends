@@ -618,6 +618,16 @@ for be in ${BACKENDS}; do
     fi
     ;;
 
+    airscan)
+    if test "${sane_cv_use_libjpeg}" != "yes" \
+      || test "${have_libcurl}" != "yes" \
+      || test "${have_libxml2}" != "yes" \
+      || test "${enable_avahi}" != "yes"; then
+      echo "*** $be backend requires avahi, libjpeg, libcurl, and libxml2 - $DISABLE_MSG"
+      backend_supported="no"
+    fi
+    ;;
+
     net)
     if test "${ac_cv_header_sys_socket_h}" = "no"; then
       echo "*** $be backend requires sys/socket.h - $DISABLE_MSG"

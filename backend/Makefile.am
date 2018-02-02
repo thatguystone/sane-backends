@@ -145,7 +145,7 @@ clean-local:
 # libraries that need to be linked in.  See libgphoto2_i.la for
 # example of working around that issue.
 be_convenience_libs = libabaton.la libagfafocus.la \
-    libapple.la libartec.la libartec_eplus48u.la \
+    libairscan.la libapple.la libartec.la libartec_eplus48u.la \
     libas6e.la libavision.la libbh.la \
     libcanon.la libcanon630u.la libcanon_dr.la \
     libcanon_pp.la libcardscan.la libcoolscan.la \
@@ -178,7 +178,7 @@ be_convenience_libs = libabaton.la libagfafocus.la \
 # here.  There are the libraries that are installed under $(libdir)/sane.
 # Format is libsane-${backend}.la.
 be_dlopen_libs = libsane-abaton.la libsane-agfafocus.la \
-    libsane-apple.la libsane-artec.la libsane-artec_eplus48u.la \
+    libsane-airscan.la libsane-apple.la libsane-artec.la libsane-artec_eplus48u.la \
     libsane-as6e.la libsane-avision.la libsane-bh.la \
     libsane-canon.la libsane-canon630u.la libsane-canon_dr.la \
     libsane-canon_pp.la libsane-cardscan.la libsane-coolscan.la \
@@ -250,6 +250,15 @@ libsane_agfafocus_la_CPPFLAGS = $(AM_CPPFLAGS) -DBACKEND_NAME=agfafocus
 libsane_agfafocus_la_LDFLAGS = $(DIST_SANELIBS_LDFLAGS)
 libsane_agfafocus_la_LIBADD = $(COMMON_LIBS) libagfafocus.la ../sanei/sanei_init_debug.lo ../sanei/sanei_constrain_value.lo ../sanei/sanei_config.lo  ../sanei/sanei_config2.lo sane_strstatus.lo ../sanei/sanei_thread.lo ../sanei/sanei_scsi.lo $(SCSI_LIBS) $(PTHREAD_LIBS) $(RESMGR_LIBS)
 EXTRA_DIST += agfafocus.conf.in
+
+libairscan_la_SOURCES = airscan.c airscan.h
+libairscan_la_CPPFLAGS = $(AM_CPPFLAGS) $(AVAHI_CFLAGS) $(LIBCURL_CFLAGS) $(LIBXML2_CFLAGS) -DBACKEND_NAME=airscan
+
+nodist_libsane_airscan_la_SOURCES = airscan-s.c
+libsane_airscan_la_CPPFLAGS = $(AM_CPPFLAGS) $(AVAHI_CFLAGS) $(LIBCURL_CFLAGS) $(LIBXML2_CFLAGS) -DBACKEND_NAME=airscan
+libsane_airscan_la_LDFLAGS = $(DIST_SANELIBS_LDFLAGS)
+libsane_airscan_la_LIBADD = $(COMMON_LIBS) libairscan.la $(AVAHI_LIBS) $(JPEG_LIBS) $(LIBCURL_LIBS) $(LIBXML2_LIBS)
+EXTRA_DIST += airscan.conf.in
 
 libapple_la_SOURCES = apple.c apple.h
 libapple_la_CPPFLAGS = $(AM_CPPFLAGS) -DBACKEND_NAME=apple
